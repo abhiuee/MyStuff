@@ -66,4 +66,14 @@ git tag --contains HASHCODE-ID
 #Reset the branch to some commit
 git reset --hard HEAD~2 - 2 commits before head
 
+#Suppose you have made changes in one private repo, call it SRC, and you want to copy those changes to another private repo, call it DEST. Ideally, you should use pull:
+cd DEST
+git pull SRC
+
+#If the SRC and DEST are not on the same machine then you might need to create a ssh tunnel which is described in the wiki 
+
+#Creating a branch
+git checkout <frombranch>
+git branch <tobranch>
+git push -u origin <tobranch>
 
