@@ -1,0 +1,146 @@
+git pull --rebase - Remove your commits, pulls the branch to the latest remote head and then applies your commits
+
+git checkout -b new_branch_name - Create a new branch that is in sync with the latest local head of the branch I was on
+
+git cherry-pick githash - Add the committed files to a whatever branch i am on.
+
+git clean -x -d -f - for a dry run use -n instead of -f. only use it in subdirectories otherwise obj files will be gone as well
+
+git push origin local:remote - use full git push qualifier 
+
+#Get the default branch of a repo (defined by HEAD file)
+git clone git@sig-gitlab.internal.synopsys.com:<group>/<repo>
+
+#Get a particular branch of a repo
+git clone -b <branch> git@sig-gitlab.internal.synopsys.com:<group>/<repo> 
+
+#Get current confi details
+git config -e
+
+#Find all branches in parent repo
+git branch -r
+
+#Find out current branch in local repo
+git branch  - Current branch is designated with *
+
+#Checking out a branch/Switching to a different branch
+git checkout <branch>
+
+#Switching from a dev branch 
+[dev] git commit
+[dev] git status
+#make sure it says working directory clean
+
+[dev] git checkout milo
+[milo] git merge dev
+[milo] git pull --rebase
+[milo] git push
+
+#Check changes 
+git show HEAD
+
+#Revert uncommitted changes 
+git checkout <file>
+
+#Revert all uncommitted changes in all local files 
+git reset --hard
+
+#Undo the latest commit but leave the working files as they are 
+git reset --soft HEAD^
+
+#Finding out files and differences in a commit
+git show <commit-ish>
+
+#To view changes associated with a tagged commit (ie, either a git or bk push tag):
+git diff <prior-tag>..<tag>
+
+#For example, the following will show the changes for all change sets checked in after the one tagged as p-carmel-push-11833 up through and including the one tagged as p-carmel-push-11834.
+git diff p-carmel-push-11833..p-carmel-push-11834
+
+#Pushing changes to an empty remote repo
+git push origin master
+
+#Finding which pushes contain a change
+git tag --contains HASHCODE-ID
+
+#Reset the branch to some commit
+git reset --hard HEAD~2 - 2 commits before head
+
+#Suppose you have made changes in one private repo, call it SRC, and you want to copy those changes to another private repo, call it DEST. Ideally, you should use pull:
+cd DEST
+git pull SRC
+
+#If the SRC and DEST are not on the same machine then you might need to create a ssh tunnel which is described in the wiki 
+
+#Creating a branch
+git checkout <frombranch>
+git branch <tobranch>
+git push -u origin <tobranch>
+
+Git is designed to be a distributed version control system. You can actually send a patch for someone to review without the need to have a centralized Git repository using the git format-patch feature. This is very useful when your remote Git repository is down.
+
+Preparing a patch
+
+When you’re ready to send the changes, use git format-patch [BASE_BRANCH_NAME]:
+
+$ git format-patch master
+0001-Update-build-matrix.patch
+0002-Display-current-gemfile-when-run-bundle-update.patch
+Since my feature branch is two commits ahead of master, Git creates two files, one for each commit. If you inspect the file, you will see the changes alongside your commit message:
+
+From b2df28155560c68772063df3b3250d811e66f35e Mon Sep 17 00:00:00 2001
+From: Prem Sichanugrist <prem@example.com>
+Date: Mon, 25 Jan 2016 18:18:38 -0500
+Subject: [PATCH 1/2] Update build matrix
+
+Build Appraisal against these versions of Ruby
+
+... snip ...
+
+---
+ .travis.yml | 13 ++++++-------
+  1 file changed, 6 insertions(+), 7 deletions(-)
+
+  diff --git a/.travis.yml b/.travis.yml
+  index 6b56084..52d0bff 100644
+  --- a/.travis.yml
+  +++ b/.travis.yml
+  @@ -3,12 +3,12 @@ sudo: false
+   before_install: gem install bundler
+
+    rvm:
+    -  - 1.8
+    -  - 1.9
+    -  - 2.0
+    -  - 2.1
+
+    ... snip ...
+
+    -- 
+    2.7.0
+    If you want to create just one file, to more easily use as an attachment or upload somewhere else, you can use the --stdout option and redirect the output to a file:
+
+    $ git format-patch master --stdout > new-feature.patch
+    $ cat new-feature.patch
+
+To review a patch
+
+When you receive a patch file from someone, you can easily apply the patch using the git am command:
+
+# Checkout to a new branch
+    $ git checkout review-new-feature
+
+# If you received the patch in a single patch file
+    $ cat new-feature.patch | git am
+
+# If you received multiple patch files
+    $ cat *.patch | git am
+
+# Check the result
+    $ git log --oneline
+    6787572 Display current gemfile when run `bundle update`
+    928928c Update build matrix
+    ...
+Note that the SHA of the patch that you merge with git am will not be the same SHA. However, the commit message will be intact.
+
+If you are just getting started using Git, be sure to check out our new book titled Goal-Oriented Git which is currently in beta. It will help you get up to speed on how to use Git on your day-to-day work. If you are already feeling confident, you can check out our Mastering Git trail on Upcase which should help you on your path towards becoming a Git expert. The first three exercises in the trail are free.
