@@ -1,0 +1,114 @@
+Bash Special Variables
+
+$0 - The name of the Bash script.
+$1 - $9 - The first 9 arguments to the Bash script. (As mentioned above.)
+$# - How many arguments were passed to the Bash script.
+$@ - All the arguments supplied to the Bash script.
+$? - The exit status of the most recently run process.
+$$ - The process ID of the current script.
+$USER - The username of the user running the script.
+$HOSTNAME - The hostname of the machine the script is running on.
+$SECONDS - The number of seconds since the script was started.
+$RANDOM - Returns a different random number each time is it referred to.
+$LINENO - Returns the current line number in the Bash script.
+
+Command substitution is nice and simple if the output of the command is a single word or line. If the output goes over several lines then the newlines are simply removed and all the output ends up on a single line.
+myvar = $(ls /etc | wc -l)
+
+let is a builtin function of Bash that allows us to do simple arithmetic. It follows the basic format:
+
+let <arithmetic expression>
+
+The arithmetic expression can take a variety of formats which we'll outline below. The first part is generally always a variable which the result is saved into however.
+#!/bin/bash
+# Basic arithmetic using let
+let a=5+4
+echo $a # 9
+let "a = 5 + 4"
+echo $a # 9
+let a++
+echo $a # 10
+let "a = 4 * 5"
+echo $a # 20
+let "a = $1 + 30"
+echo $a # 30 + first command line argument
+
+expr is similar to let except instead of saving the result to a variable it instead prints the answer. Unlike let you don't need to enclose the expression in quotes. You also must have spaces between the items of the expression. It is also common to use expr within command substitution to save the output to a variable.
+
+expr item1 operator item2
+
+#!/bin/bash
+# Basic arithmetic using expr
+expr 5 + 4
+expr "5 + 4"
+expr 5+4
+expr 5 \* $1
+expr 11 % 2
+a=$( expr 10 - 3 )
+echo $a # 7
+
+In the section on Variables we saw that we could save the output of a command easily to a variable. It turns out that this mechanism is also able to do basic arithmetic for us if we tweak the syntax a little. We do so by using double brackets like so:
+
+$(( expression ))
+
+#!/bin/bash
+# Basic arithmetic using double parentheses
+a=$(( 4 + 5 ))
+echo $a # 9
+a=$((3+5))
+echo $a # 8
+b=$(( a + 3 ))
+echo $b # 11
+b=$(( $a + 4 ))
+echo $b # 12
+(( b++ ))
+echo $b # 13
+(( b += 3 ))
+echo $b # 16
+a=$(( 4 * 5 ))
+echo $a # 20
+
+This isn't really arithmetic but it can be quite useful. If you want to find out the lengh of a variable (how many characters) you can do the following:
+
+${#variable}
+
+Here's an example:
+
+#!/bin/bash
+# Show the length of a variable.
+a='Hello World'
+echo ${#a} # 11
+b=4953
+echo ${#b} # 4
+
+if [ <some test> ]
+then
+  <commands>
+elif [ <some test> ] 
+then
+  <different commands>
+else
+  <other commands>
+fi
+
+counter=1
+while [ $counter -le 10 ]
+do
+  echo $counter
+  ((counter++))
+done
+
+for value in {1..5}
+do
+  echo $value
+done
+
+
+One of the more useful applications of for loops is in the processing of a set of files. To do this we may use wildcards. Let's say we want to convert a series of .html files over to .php files.
+
+#!/bin/bash
+# Make a php copy of any html files
+for value in $1/*.html
+do
+  cp $value $1/$( basename -s .html $value ).php
+done
