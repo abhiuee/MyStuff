@@ -1,0 +1,29 @@
+[alias]
+    st = status
+    sn = show --name-only
+    br = branch
+    ci = commit
+    co = checkout
+    dc = diff --cached
+    d = describe
+    lgd = log --decorate
+    shd = show --decorate
+    root = rev-parse --show-toplevel
+    unstage = reset HEAD --
+    mychanges = log --cherry origin/HEAD..HEAD
+    mychangedfiles = whatchanged origin/HEAD..HEAD
+    parent = config --get remote.origin.url
+    pl = pull
+    plr = pull --rebase
+[log]
+  abbrevCommit = true
+  decorate = true
+  date = iso
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+[push]
+  default = tracking
+[core]
+  editor=vim

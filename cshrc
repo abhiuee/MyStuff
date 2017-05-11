@@ -26,6 +26,9 @@ setenv ARCH `arch` # test what flavour of unix you are on
 set uname = `uname -a`
 set osv = `echo $uname | awk '{print $1 substr($3,1,1)}'`
 #echo "operating system = $osv"
+setenv PATH /usr/local/sbin:$PATH
+setenv PATH /usr/local/Cellar/:$PATH
+setenv PATH /Users/abhiuee/Test/bash:$PATH
 
 #Set the prompts properly
 set     red="%{\033[1;31m%}"
@@ -36,15 +39,13 @@ set magenta="%{\033[1;35m%}"
 set    cyan="%{\033[1;36m%}"
 set   white="%{\033[0;37m%}"
 set     end="%{\033[0m%}"
-set prompt="${green}%n${blue}@%m ${cyan} $PWD:t %t ${green}%%${end} "
-alias setprompt 'set prompt="${green}%n${blue}@%m ${cyan} $PWD:t %t ${green}%%${end} "'
+#alias precmd 'set cgb = `git_branch.sh`'
+set prompt="${green}%n${blue}@%m ${cyan} $PWD:t %t `git_branch.sh` ${green}%%${end} "
+alias setprompt 'set prompt="${green}%n${blue}@%m ${cyan} $PWD:t `git_branch.sh` %t ${green}%%${end} "'
 
 #set prompt="\n%{\e[1;36m%}\[`whoami`\@`hostname -s` $PWD:t %t\]$ %{\e[m%}"
 #alias setprompt 'set prompt="\n%{\e[1;36m%}\[`whoami`\@`hostname -s` $PWD:t %t\]$ %{\e[m%}"'
 alias cd 'chdir \!* && setprompt'
-setenv PATH /usr/local/sbin:$PATH
-setenv PATH /usr/local/Cellar/:$PATH
-
 #MAC specific aliases
 alias ack /usr/local/Cellar/ack/2.18/bin/ack
 alias brew /usr/local/bin/brew
