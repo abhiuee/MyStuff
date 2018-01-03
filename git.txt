@@ -144,3 +144,5 @@ When you receive a patch file from someone, you can easily apply the patch using
 Note that the SHA of the patch that you merge with git am will not be the same SHA. However, the commit message will be intact.
 
 If you are just getting started using Git, be sure to check out our new book titled Goal-Oriented Git which is currently in beta. It will help you get up to speed on how to use Git on your day-to-day work. If you are already feeling confident, you can check out our Mastering Git trail on Upcase which should help you on your path towards becoming a Git expert. The first three exercises in the trail are free.
+
+git format-patch -2 HEAD --stdout > 1.
