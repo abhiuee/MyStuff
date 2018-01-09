@@ -56,6 +56,7 @@ ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the curr
 ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
 ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
 
+ssh_bash () { ssh -t "$@" "bash -l" ; }
 #   findPid: find out the pid of a specified process
 #   -----------------------------------------------------
 #       Note that the command name can be specified via a regex
@@ -165,4 +166,9 @@ function __git_status {
 	fi
 }
 
-export PS1="$Red\u@$Cyan\h: $IBlack$PWD $IBlue\$(__git_status) $IBlack\T$Green % "
+function __pwd {
+  b=`pwd`
+  printf $b
+}
+
+export PS1="$Red\u@$Cyan\h: $IBlack\$(__pwd) $IBlue\$(__git_status) $IBlack\T$Green % "
