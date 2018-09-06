@@ -1,19 +1,14 @@
 
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 stty sane
 
 export ARCH=`arch` # test what flavour of unix you are on
-export IGNORE_RELENG_XCODE=1
 
-export PATH=/Users/abhiuee/Downloads/apps:$PATH
 export PATH=/usr/local/sbin:$PATH
+export PATH=~/bin:$PATH
 export PATH=/usr/local/Cellar:$PATH
-export PATH=/Users/abhiuee/Test/bash:$PATH
 export PATH=/usr/local/bin:$PATH
-export PATH=$HOME/.rvm/bin:$PATH
 
 export uname=`uname -a`
 export osv=`echo $uname | awk '{print $1 substr($3,1,1)}'`
@@ -41,9 +36,6 @@ alias ctags=/usr/local/Cellar/ctags/5.8_1/bin/ctags
 alias tmux=/usr/local/Cellar/tmux/2.4/bin/tmux 
 
 alias cdp='cd `git_root.sh`'
-alias list_failed_tests='cdp && grep "<pwd>" failed_test_log.linux64.xml && cd -'
-alias run_all_tests='make testsuite MAX_FAILURES=-1 THREADS=12'
-alias make-package='make checkout-packages && make update-packages'
 
 
 #   lr:  Full Recursive Directory Listing
@@ -73,8 +65,8 @@ alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 #   -----------------------------------------------------
 alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
 alias tkdiff='/usr/local/Cellar/tkdiff/4.2/bin/tkdiff'
-alias python3=' /usr/local/Cellar/python3/3.6.3/bin/python3'
-alias rgrep='/usr/local/Cellar/ripgrep/0.7.1/bin/rg'
+alias python3='/usr/local/Cellar/python3/3.6.3/bin/python3'
+alias rgrep='/usr/local/Cellar/ripgrep/0.8.1/bin/rg'
 
 #  Customize BASH PS1 prompt to show current GIT repository and branch.
 #  by Mike Stewart - http://MediaDoneRight.com
