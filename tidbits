@@ -1,0 +1,2 @@
+ssh-copy-id remote 
+Avoid typing your SSH key password - `eval $(ssh-agent) && ssh-add`
